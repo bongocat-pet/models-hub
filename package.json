@@ -1,0 +1,20 @@
+{
+  "name": "models-hub",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "catalog:local": "node scripts/local-catalog.mjs",
+    "discover": "node scripts/discover-repositories.mjs",
+    "stage": "node scripts/stage-assets.mjs",
+    "build:assets": "node scripts/build-assets.mjs",
+    "package": "node scripts/package-models.mjs",
+    "verify:deployment": "node scripts/verify-deployment.mjs",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "wrangler": "^4.125.0"
+  }
+}

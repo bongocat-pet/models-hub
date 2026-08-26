@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bongocat-models-hub",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-26",
+  "build": {
+    "command": "npm run build:assets",
+    "watch_dir": ["src", "scripts", "data"]
+  },
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": ["/avatars/*", "/previews/*"]
+  },
+  "observability": { "enabled": true },
+  "vars": { "ALLOWED_ORIGIN": "*" }
+}

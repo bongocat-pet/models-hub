@@ -1,0 +1,7 @@
+node_modules/
+.cache/
+.wrangler/
+public/avatars/
+public/previews/
+release-assets/
+

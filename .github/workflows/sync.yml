@@ -1,0 +1,44 @@
+name: Sync model catalog
+
+on:
+  schedule:
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [models-updated]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: models-hub-catalog-sync
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Discover model repositories
+        run: npm run discover
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm test
+      - name: Commit catalog changes
+        shell: bash
+        run: |
+          git add data/models.json
+          if git diff --cached --quiet; then
+            echo "Model catalog is already current."
+            exit 0
+          fi
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git commit -m "chore: sync model catalog"
+          git pull --rebase origin main
+          git push origin HEAD:main
