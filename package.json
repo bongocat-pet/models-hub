@@ -13,7 +13,7 @@
     "verify:deployment": "node scripts/verify-deployment.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "test": "node --test"
+    "test": "for file in scripts/*.mjs src/*.js; do node --check \"$file\" || exit 1; done; node --test"
   },
   "devDependencies": {
     "wrangler": "^4.125.0"

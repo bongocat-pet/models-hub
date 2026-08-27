@@ -29,7 +29,7 @@ const records = (await mapLimit(repositories, 6, async repository => {
     modelLinks: parseModelLinks(linksContent, `${repository.name}/models/webp/links.json`),
     generated,
   });
-}))).filter(Boolean);
+})).filter(Boolean);
 if (!records.length) throw new Error(`No model repositories found in ${organization}`);
 const catalogPath = resolve(projectRoot, 'data/models.json');
 const previous = JSON.parse(await readFile(catalogPath, 'utf8'));
