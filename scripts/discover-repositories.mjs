@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildRepositoryCatalog, createCatalog, inspectModelRepository, parseAuthorLinks } from './catalog-builder.mjs';
+import { buildRepositoryCatalog, createCatalog, inspectModelRepository, parseAuthorLinks, parseModelLinks } from './catalog-builder.mjs';
 
 const organization = process.env.MODELS_GITHUB_ORG || 'bongocat-pet';
 const token = process.env.GITHUB_TOKEN;
@@ -20,7 +20,15 @@ const records = (await mapLimit(repositories, 6, async repository => {
   if (!tree || !inspectModelRepository(tree).shouldInclude) return null;
   const readme = await api(`/repos/${repository.full_name}/contents/README.md?ref=${encodeURIComponent(repository.default_branch)}`);
   const content = readme?.encoding === 'base64' ? Buffer.from(readme.content, 'base64').toString('utf8') : '';
-  return buildRepositoryCatalog({ repository, tree, authorLinks: parseAuthorLinks(content), generated });
+  const linksFile = await api(`/repos/${repository.full_name}/contents/models/webp/links.json?ref=${encodeURIComponent(repository.default_branch)}`, [404]);
+  const linksContent = linksFile?.encoding === 'base64' ? Buffer.from(linksFile.content, 'base64').toString('utf8') : '{}';
+  return buildRepositoryCatalog({
+    repository,
+    tree,
+    authorLinks: parseAuthorLinks(content),
+    modelLinks: parseModelLinks(linksContent, `${repository.name}/models/webp/links.json`),
+    generated,
+  });
 }))).filter(Boolean);
 if (!records.length) throw new Error(`No model repositories found in ${organization}`);
 const catalogPath = resolve(projectRoot, 'data/models.json');

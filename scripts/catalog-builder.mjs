@@ -26,7 +26,7 @@ export function inspectModelRepository(tree) {
   };
 }
 
-export function buildRepositoryCatalog({ repository, tree, authorLinks = [], generated }) {
+export function buildRepositoryCatalog({ repository, tree, authorLinks = [], modelLinks = {}, generated }) {
   if (!repository?.name || !repository?.html_url || !repository?.default_branch) {
     throw new Error('Repository metadata is incomplete');
   }
@@ -40,6 +40,11 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], gen
     const match = file.path.match(CONFIG_PATTERN);
     return match ? [match[1]] : [];
   }))].sort(naturalCompare);
+  const normalizedModelLinks = normalizeModelLinks(modelLinks);
+  const unknownLinks = Object.keys(normalizedModelLinks).filter(name => !names.includes(name));
+  if (unknownLinks.length) {
+    throw new Error(`${repository.name} links.json references unknown models: ${unknownLinks.join(', ')}`);
+  }
 
   const models = names.flatMap(name => {
     const preview = files.find(file => file.path.toLowerCase() === `models/webp/${name}.webp`.toLowerCase());
@@ -56,6 +61,7 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], gen
       sourcePath: `models/${name}`,
       previewSource: preview.path,
       previewFingerprint: preview.sha,
+      fullVersionUrl: normalizedModelLinks[name] || '',
       downloadFilename: `${id}.zip`,
       size: modelFiles.reduce((total, file) => total + file.size, 0),
       fileCount: modelFiles.length,
@@ -100,6 +106,19 @@ export function parseAuthorLinks(readme) {
   return links;
 }
 
+export function parseModelLinks(content, source = 'models/webp/links.json') {
+  let parsed;
+  try {
+    parsed = JSON.parse(String(content || '{}'));
+  } catch {
+    throw new Error(`${source} must contain valid JSON`);
+  }
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    throw new Error(`${source} must contain an object of model names and URLs`);
+  }
+  return normalizeModelLinks(parsed, source);
+}
+
 function platformLabel(url) {
   const host = url.hostname.replace(/^www\./, '').toLowerCase();
   if (host === 'bilibili.com' || host.endsWith('.bilibili.com')) return 'Bilibili';
@@ -122,6 +141,19 @@ function normalizeLinks(links) {
       return label && ['http:', 'https:'].includes(url.protocol) ? [{ label, url: url.toString() }] : [];
     } catch { return []; }
   }) : [];
+}
+
+function normalizeModelLinks(links, source = 'model links') {
+  if (!links || typeof links !== 'object' || Array.isArray(links)) {
+    throw new Error(`${source} must be an object`);
+  }
+  return Object.fromEntries(Object.entries(links).map(([rawName, rawUrl]) => {
+    const name = String(rawName).trim();
+    let url;
+    try { url = new URL(String(rawUrl)); } catch { throw new Error(`${source} contains an invalid URL for ${name || 'an unnamed model'}`); }
+    if (!name || url.protocol !== 'https:') throw new Error(`${source} requires model names and HTTPS URLs`);
+    return [name, url.toString()];
+  }));
 }
 
 function slug(value) {

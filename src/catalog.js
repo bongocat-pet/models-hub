@@ -18,6 +18,7 @@ export function createManifest(origin) {
     repository: model.repository,
     sourceUrl: `${model.repository}/tree/${encodeURIComponent(model.branch)}/${encodePath(model.sourcePath)}`,
     preview: assetUrl(origin, 'previews', model.repositoryKey, `${model.name}.webp`, model.previewFingerprint),
+    ...(model.fullVersionUrl ? { fullVersionUrl: model.fullVersionUrl } : {}),
     downloadUrl: `${RELEASE_BASE}/${encodeURIComponent(model.downloadFilename)}`,
     downloadFilename: model.downloadFilename,
     size: model.size,

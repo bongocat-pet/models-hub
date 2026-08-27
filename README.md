@@ -23,13 +23,17 @@ creator-repository/
 ├── a.webp                    # one root avatar: gif/webp/png/jpg/jpeg
 └── models/
     ├── webp/
-    │   └── Model Name.webp   # preview with the same model directory name
+    │   ├── Model Name.webp   # preview with the same model directory name
+    │   └── links.json         # optional full-version URL by model name
     └── Model Name/
         └── .../config.json   # a complete Bongo-Cat-Mver package
 ```
 
 `yuhen` already follows this contract. New matching repositories and models are
 picked up by the half-hourly sync without editing this repository.
+
+When present, `models/webp/links.json` is a JSON object whose keys exactly match
+model directory names and whose values are public HTTPS full-version pages.
 
 ## Publishing flow
 

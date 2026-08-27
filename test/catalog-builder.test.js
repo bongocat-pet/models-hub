@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { buildRepositoryCatalog, inspectModelRepository, parseAuthorLinks } from '../scripts/catalog-builder.mjs';
+import { buildRepositoryCatalog, inspectModelRepository, parseAuthorLinks, parseModelLinks } from '../scripts/catalog-builder.mjs';
 
 const tree = {
   sha: 'commit',
@@ -21,12 +21,22 @@ test('recognizes the repository contract and builds stable model metadata', () =
     repository: { name: 'artist', html_url: 'https://github.com/org/artist', default_branch: 'art', pushed_at: 'now' },
     tree,
     authorLinks: [{ label: 'Bilibili', url: 'https://space.bilibili.com/1' }],
+    modelLinks: { '猫-无表情版': 'https://mall.bilibili.com/item/1' },
     generated: 'now',
   });
   assert.equal(record.models[0].name, '猫-无表情版');
   assert.equal(record.models[0].size, 90);
   assert.equal(record.models[0].fileCount, 2);
   assert.match(record.models[0].id, /^artist-[a-f0-9]{12}$/);
+  assert.equal(record.models[0].fullVersionUrl, 'https://mall.bilibili.com/item/1');
+});
+
+test('validates optional full-version model links', () => {
+  assert.deepEqual(parseModelLinks('{"猫":"https://example.com/full"}'), {
+    猫: 'https://example.com/full',
+  });
+  assert.throws(() => parseModelLinks('{"猫":"http://example.com"}'), /HTTPS/);
+  assert.throws(() => parseModelLinks('[]'), /object/);
 });
 
 test('requires a matching preview for every discovered model', () => {

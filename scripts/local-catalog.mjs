@@ -3,7 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { basename, resolve } from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
-import { buildRepositoryCatalog, createCatalog, parseAuthorLinks } from './catalog-builder.mjs';
+import { buildRepositoryCatalog, createCatalog, parseAuthorLinks, parseModelLinks } from './catalog-builder.mjs';
 
 const projectRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const sourceRoot = resolve(process.env.MODELS_SOURCE_ROOT || projectRoot, process.env.MODELS_SOURCE_REPOSITORY || '../yuhen');
@@ -22,6 +22,7 @@ const files = listing.toString('utf8').split('\0').filter(Boolean).map(record =>
 const generated = new Date().toISOString();
 const tree = { sha: commit.trim(), tree: files };
 const readme = await readFile(resolve(sourceRoot, 'README.md'), 'utf8');
+const modelLinks = parseModelLinks(await readOptional(resolve(sourceRoot, 'models/webp/links.json')));
 const record = buildRepositoryCatalog({
   repository: {
     name: repositoryName,
@@ -31,7 +32,16 @@ const record = buildRepositoryCatalog({
   },
   tree,
   authorLinks: parseAuthorLinks(readme),
+  modelLinks,
   generated,
 });
 await writeFile(resolve(projectRoot, 'data/models.json'), `${JSON.stringify(createCatalog([record], generated), null, 2)}\n`);
 console.log(`Cataloged ${record.models.length} models from ${repositoryName}.`);
+
+async function readOptional(path) {
+  try { return await readFile(path, 'utf8'); }
+  catch (error) {
+    if (error?.code === 'ENOENT') return '{}';
+    throw error;
+  }
+}
