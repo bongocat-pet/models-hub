@@ -9,6 +9,7 @@
     "stage": "node scripts/stage-assets.mjs",
     "build:assets": "node scripts/build-assets.mjs",
     "package": "node scripts/package-models.mjs",
+    "verify:r2": "node scripts/verify-r2-upload.mjs",
     "verify:deployment": "node scripts/verify-deployment.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",

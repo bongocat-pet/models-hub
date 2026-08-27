@@ -8,6 +8,7 @@ on:
     types: [models-updated]
 
 permissions:
+  actions: write
   contents: write
 
 concurrency:
@@ -30,11 +31,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm test
       - name: Commit catalog changes
+        id: catalog
         shell: bash
         run: |
           git add data/models.json
           if git diff --cached --quiet; then
             echo "Model catalog is already current."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name github-actions[bot]
@@ -42,3 +45,9 @@ jobs:
           git commit -m "chore: sync model catalog"
           git pull --rebase origin main
           git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Publish updated model packages
+        if: steps.catalog.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run publish-models.yml --ref main

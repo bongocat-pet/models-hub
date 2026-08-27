@@ -4,7 +4,8 @@ Model registry, preview CDN, and package publisher for the BongoCat website.
 
 ## Public API
 
-- `GET /models.json` returns every discovered model and its download metadata.
+- `GET /models.json` returns every discovered model with its primary R2 URL and
+  GitHub Release fallback URL.
 - `GET /previews/:repository/:model.webp` serves model previews.
 - `GET /avatars/:repository/a.*` serves creator avatars.
 - `GET /health` reports Worker health.
@@ -39,10 +40,22 @@ model directory names and whose values are public HTTPS full-version pages.
 
 The catalog sync reads GitHub trees without cloning large model repositories and
 commits `data/models.json` only when source metadata changes. A catalog change
-triggers the package workflow, which creates one ZIP for each model and replaces
-the assets on the stable `models` GitHub Release. Cloudflare Workers Builds runs
-`npm run build:assets`, sparse-checkouts only avatars and previews, and deploys
-those lightweight assets with the Worker.
+triggers the package workflow, which creates one ZIP for each model, synchronizes
+the packages to the `models/` prefix in Cloudflare R2, verifies the public custom
+domain, and then replaces the assets on the stable `models` GitHub Release as a
+fallback. Cloudflare Workers Builds runs `npm run build:assets`, sparse-checkouts
+only avatars and previews, and deploys those lightweight assets with the Worker.
+
+The package workflow requires these GitHub Actions repository settings:
+
+```text
+Secrets:  CLOUDFLARE_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY
+Variables: R2_BUCKET_NAME, R2_PUBLIC_BASE_URL
+```
+
+Production uses `R2_PUBLIC_BASE_URL=https://downloads.bongocat.pet` and bucket
+`bongocat-model-packages`. The R2 token should have object read/write access only
+to that bucket.
 
 Connect this repository to Cloudflare Workers Builds with deploy command
 `npx wrangler deploy`, then bind the Worker to `models.bongocat.pet`.

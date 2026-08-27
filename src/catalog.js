@@ -1,8 +1,9 @@
 import catalog from '../data/models.json' with { type: 'json' };
 
+const DEFAULT_R2_BASE = 'https://downloads.bongocat.pet';
 const RELEASE_BASE = 'https://github.com/bongocat-pet/models-hub/releases/download/models';
 
-export function createManifest(origin) {
+export function createManifest(origin, r2Base = DEFAULT_R2_BASE) {
   const repositories = Object.fromEntries(catalog.repositories.map(repository => [repository.key, {
     repository: repository.repository,
     branch: repository.branch,
@@ -19,7 +20,8 @@ export function createManifest(origin) {
     sourceUrl: `${model.repository}/tree/${encodeURIComponent(model.branch)}/${encodePath(model.sourcePath)}`,
     preview: assetUrl(origin, 'previews', model.repositoryKey, `${model.name}.webp`, model.previewFingerprint),
     ...(model.fullVersionUrl ? { fullVersionUrl: model.fullVersionUrl } : {}),
-    downloadUrl: `${RELEASE_BASE}/${encodeURIComponent(model.downloadFilename)}`,
+    downloadUrl: publicDownloadUrl(r2Base, model.downloadFilename),
+    fallbackDownloadUrl: `${RELEASE_BASE}/${encodeURIComponent(model.downloadFilename)}`,
     downloadFilename: model.downloadFilename,
     size: model.size,
     fileCount: model.fileCount,
@@ -32,6 +34,11 @@ export function createManifest(origin) {
     repositories,
     models,
   };
+}
+
+function publicDownloadUrl(base, filename) {
+  const root = String(base).replace(/\/+$/, '');
+  return `${root}/models/${encodeURIComponent(filename)}`;
 }
 
 function assetUrl(origin, prefix, repositoryKey, filename, fingerprint) {

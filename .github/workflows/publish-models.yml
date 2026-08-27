@@ -5,7 +5,9 @@ on:
     branches: [main]
     paths:
       - 'data/models.json'
+      - 'package.json'
       - 'scripts/package-models.mjs'
+      - 'scripts/verify-r2-upload.mjs'
       - '.github/workflows/publish-models.yml'
   workflow_dispatch:
 
@@ -28,6 +30,30 @@ jobs:
       - run: npm ci
       - name: Build one ZIP per model
         run: npm run package
+      - name: Upload packages to Cloudflare R2
+        shell: bash
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          R2_BUCKET_NAME: ${{ vars.R2_BUCKET_NAME }}
+        run: |
+          : "${AWS_ACCESS_KEY_ID:?Missing R2_ACCESS_KEY_ID repository secret}"
+          : "${AWS_SECRET_ACCESS_KEY:?Missing R2_SECRET_ACCESS_KEY repository secret}"
+          : "${CLOUDFLARE_ACCOUNT_ID:?Missing CLOUDFLARE_ACCOUNT_ID repository secret}"
+          : "${R2_BUCKET_NAME:?Missing R2_BUCKET_NAME repository variable}"
+          aws s3 sync release-assets/ "s3://${R2_BUCKET_NAME}/models/" \
+            --endpoint-url "https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com" \
+            --region auto \
+            --delete \
+            --only-show-errors \
+            --content-type application/zip \
+            --content-disposition attachment \
+            --cache-control "public, max-age=31536000, immutable"
+      - name: Verify public R2 downloads
+        env:
+          R2_PUBLIC_BASE_URL: ${{ vars.R2_PUBLIC_BASE_URL }}
+        run: npm run verify:r2
       - name: Update stable release assets
         shell: bash
         env:

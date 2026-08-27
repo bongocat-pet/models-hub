@@ -17,7 +17,7 @@ export default {
       }, 200, cors, request.method);
     }
     if (url.pathname === '/models.json') {
-      return json(createManifest(url.origin), 200, cors, request.method, { 'Cache-Control': MANIFEST_CACHE });
+      return json(createManifest(url.origin, env.R2_PUBLIC_BASE_URL), 200, cors, request.method, { 'Cache-Control': MANIFEST_CACHE });
     }
     if (url.pathname.startsWith('/avatars/') || url.pathname.startsWith('/previews/')) {
       return serveAsset(request, env, cors);

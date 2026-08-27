@@ -13,5 +13,8 @@
     "run_worker_first": ["/avatars/*", "/previews/*"]
   },
   "observability": { "enabled": true },
-  "vars": { "ALLOWED_ORIGIN": "*" }
+  "vars": {
+    "ALLOWED_ORIGIN": "*",
+    "R2_PUBLIC_BASE_URL": "https://downloads.bongocat.pet"
+  }
 }

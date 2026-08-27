@@ -10,6 +10,16 @@ test('serves the public manifest with CORS and cache controls', async () => {
   assert.match(response.headers.get('Cache-Control'), /stale-while-revalidate/);
   assert.ok(Array.isArray(manifest.models));
   assert.match(manifest.models.find(model => model.fullVersionUrl)?.fullVersionUrl || '', /^https:\/\//);
+  assert.match(manifest.models[0].downloadUrl, /^https:\/\/downloads\.bongocat\.pet\/models\//);
+  assert.match(manifest.models[0].fallbackDownloadUrl, /^https:\/\/github\.com\/bongocat-pet\/models-hub\/releases\//);
+});
+
+test('supports a configured R2 public origin', async () => {
+  const response = await worker.fetch(new Request('https://models.example/models.json'), {
+    R2_PUBLIC_BASE_URL: 'https://cdn.example/',
+  });
+  const manifest = await response.json();
+  assert.match(manifest.models[0].downloadUrl, /^https:\/\/cdn\.example\/models\//);
 });
 
 test('supports HEAD, preflight, and rejects mutations', async () => {
