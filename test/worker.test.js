@@ -9,6 +9,7 @@ test('serves the public manifest with CORS and cache controls', async () => {
   assert.equal(response.headers.get('Access-Control-Allow-Origin'), '*');
   assert.match(response.headers.get('Cache-Control'), /stale-while-revalidate/);
   assert.ok(Array.isArray(manifest.models));
+  assert.match(manifest.models.find(model => model.fullVersionUrl)?.fullVersionUrl || '', /^https:\/\//);
 });
 
 test('supports HEAD, preflight, and rejects mutations', async () => {
