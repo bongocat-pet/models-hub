@@ -30,7 +30,7 @@ jobs:
       - run: npm ci
       - name: Build one ZIP per model
         run: npm run package
-      - name: Upload packages to Cloudflare R2
+      - name: Validate R2 configuration
         shell: bash
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
@@ -42,6 +42,27 @@ jobs:
           : "${AWS_SECRET_ACCESS_KEY:?Missing R2_SECRET_ACCESS_KEY repository secret}"
           : "${CLOUDFLARE_ACCOUNT_ID:?Missing CLOUDFLARE_ACCOUNT_ID repository secret}"
           : "${R2_BUCKET_NAME:?Missing R2_BUCKET_NAME repository variable}"
+          aws --version
+      - name: Check R2 bucket access
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          R2_BUCKET_NAME: ${{ vars.R2_BUCKET_NAME }}
+        run: |
+          aws s3api list-objects-v2 \
+            --bucket "$R2_BUCKET_NAME" \
+            --max-keys 1 \
+            --endpoint-url "https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com" \
+            --region auto \
+            --query KeyCount
+      - name: Upload packages to Cloudflare R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          R2_BUCKET_NAME: ${{ vars.R2_BUCKET_NAME }}
+        run: |
           aws s3 sync release-assets/ "s3://${R2_BUCKET_NAME}/models/" \
             --endpoint-url "https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com" \
             --region auto \
