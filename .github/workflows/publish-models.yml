@@ -40,19 +40,25 @@ jobs:
           : "${AWS_SECRET_ACCESS_KEY:?Missing R2_SECRET_ACCESS_KEY repository secret}"
           : "${CLOUDFLARE_ACCOUNT_ID:?Missing CLOUDFLARE_ACCOUNT_ID repository secret}"
           : "${R2_BUCKET_NAME:?Missing R2_BUCKET_NAME repository variable}"
+          account_id="${CLOUDFLARE_ACCOUNT_ID#https://}"
+          account_id="${account_id%%.*}"
+          if [[ ! "$account_id" =~ ^[0-9a-fA-F]{32}$ ]]; then
+            echo "::error title=Invalid Cloudflare account ID::CLOUDFLARE_ACCOUNT_ID must be a 32-character account ID or an R2 S3 API URL."
+            exit 1
+          fi
+          echo "R2_ENDPOINT=https://${account_id}.r2.cloudflarestorage.com" >> "$GITHUB_ENV"
           aws --version
       - name: Check R2 bucket access
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           R2_BUCKET_NAME: ${{ vars.R2_BUCKET_NAME }}
         run: |
           set +e
           result=$(aws s3api list-objects-v2 \
             --bucket "$R2_BUCKET_NAME" \
             --max-keys 1 \
-            --endpoint-url "https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com" \
+            --endpoint-url "$R2_ENDPOINT" \
             --region auto \
             --query KeyCount 2>&1)
           status=$?
@@ -71,11 +77,10 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           R2_BUCKET_NAME: ${{ vars.R2_BUCKET_NAME }}
         run: |
           aws s3 sync release-assets/ "s3://${R2_BUCKET_NAME}/models/" \
-            --endpoint-url "https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com" \
+            --endpoint-url "$R2_ENDPOINT" \
             --region auto \
             --delete \
             --only-show-errors \
