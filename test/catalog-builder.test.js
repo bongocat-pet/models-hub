@@ -29,6 +29,8 @@ test('recognizes the repository contract and builds stable model metadata', () =
   assert.equal(record.models[0].fileCount, 2);
   assert.match(record.models[0].id, /^artist-[a-f0-9]{12}$/);
   assert.equal(record.models[0].fullVersionUrl, 'https://mall.bilibili.com/item/1');
+  assert.equal(record.models[0].downloadFilename, '猫-无表情版.zip');
+  assert.match(record.models[0].packageFilename, /^artist-[a-f0-9]{12}\.zip$/);
 });
 
 test('validates optional full-version model links', () => {

@@ -20,8 +20,8 @@ export function createManifest(origin, r2Base = DEFAULT_R2_BASE) {
     sourceUrl: `${model.repository}/tree/${encodeURIComponent(model.branch)}/${encodePath(model.sourcePath)}`,
     preview: assetUrl(origin, 'previews', model.repositoryKey, `${model.name}.webp`, model.previewFingerprint),
     ...(model.fullVersionUrl ? { fullVersionUrl: model.fullVersionUrl } : {}),
-    downloadUrl: publicDownloadUrl(r2Base, model.downloadFilename),
-    fallbackDownloadUrl: `${RELEASE_BASE}/${encodeURIComponent(model.downloadFilename)}`,
+    downloadUrl: publicDownloadUrl(r2Base, model.repositoryKey, model.downloadFilename),
+    fallbackDownloadUrl: `${RELEASE_BASE}/${encodeURIComponent(model.packageFilename)}`,
     downloadFilename: model.downloadFilename,
     size: model.size,
     fileCount: model.fileCount,
@@ -36,9 +36,9 @@ export function createManifest(origin, r2Base = DEFAULT_R2_BASE) {
   };
 }
 
-function publicDownloadUrl(base, filename) {
+function publicDownloadUrl(base, repositoryKey, filename) {
   const root = String(base).replace(/\/+$/, '');
-  return `${root}/models/${encodeURIComponent(filename)}`;
+  return `${root}/models/${encodeURIComponent(repositoryKey)}/${encodeURIComponent(filename)}`;
 }
 
 function assetUrl(origin, prefix, repositoryKey, filename, fingerprint) {

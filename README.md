@@ -41,7 +41,7 @@ model directory names and whose values are public HTTPS full-version pages.
 The catalog sync reads GitHub trees without cloning large model repositories and
 commits `data/models.json` only when source metadata changes. A catalog change
 triggers the package workflow, which creates one ZIP for each model, synchronizes
-the packages to the `models/` prefix in Cloudflare R2, verifies the public custom
+the packages to `models/<repository>/<model folder>.zip` in Cloudflare R2, verifies the public custom
 domain, and then replaces the assets on the stable `models` GitHub Release as a
 fallback. Cloudflare Workers Builds runs `npm run build:assets`, sparse-checkouts
 only avatars and previews, and deploys those lightweight assets with the Worker.
