@@ -28,8 +28,6 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Build one ZIP per model
-        run: npm run package
       - name: Validate R2 configuration
         shell: bash
         env:
@@ -50,12 +48,25 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           R2_BUCKET_NAME: ${{ vars.R2_BUCKET_NAME }}
         run: |
-          aws s3api list-objects-v2 \
+          set +e
+          result=$(aws s3api list-objects-v2 \
             --bucket "$R2_BUCKET_NAME" \
             --max-keys 1 \
             --endpoint-url "https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com" \
             --region auto \
-            --query KeyCount
+            --query KeyCount 2>&1)
+          status=$?
+          set -e
+          if (( status != 0 )); then
+            message="${result//'%'/'%25'}"
+            message="${message//$'\r'/'%0D'}"
+            message="${message//$'\n'/'%0A'}"
+            echo "::error title=R2 bucket access failed::$message"
+            exit "$status"
+          fi
+          echo "$result"
+      - name: Build one ZIP per model
+        run: npm run package
       - name: Upload packages to Cloudflare R2
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
