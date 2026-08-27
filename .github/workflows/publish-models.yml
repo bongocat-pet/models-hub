@@ -99,9 +99,15 @@ jobs:
           if ! gh release view models >/dev/null 2>&1; then
             gh release create models --title "BongoCat community models" --notes "Automatically synchronized model packages."
           fi
-          gh release upload models release-assets/*.zip --clobber
+          gh release view models --json assets --jq '.assets[].name' > "$RUNNER_TEMP/published-model-assets.txt"
+          for package in release-assets/*.zip; do
+            asset=$(basename "$package")
+            if ! grep -Fxq -- "$asset" "$RUNNER_TEMP/published-model-assets.txt"; then
+              gh release upload models "$package"
+            fi
+          done
           while IFS= read -r asset; do
             if [ ! -f "release-assets/$asset" ]; then
               gh release delete-asset models "$asset" --yes
             fi
-          done < <(gh release view models --json assets --jq '.assets[].name')
+          done < "$RUNNER_TEMP/published-model-assets.txt"
