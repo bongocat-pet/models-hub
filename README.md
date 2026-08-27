@@ -45,6 +45,8 @@ the packages to `models/<repository>/<model folder>.zip` in Cloudflare R2, verif
 domain, and then replaces the assets on the stable `models` GitHub Release as a
 fallback. Cloudflare Workers Builds runs `npm run build:assets`, sparse-checkouts
 only avatars and previews, and deploys those lightweight assets with the Worker.
+Hashed R2 package paths remain available for cached manifests during catalog
+rollouts, so an older page never loses its active download URL.
 
 The package workflow requires these GitHub Actions repository settings:
 
