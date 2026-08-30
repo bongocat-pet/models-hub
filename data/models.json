@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "86ad5b89690eb5f1",
-  "generated": "2026-08-30T12:44:56.752Z",
+  "revision": "98cbf8353d5bdb9d",
+  "generated": "2026-08-30T13:38:32.625Z",
   "repositories": [
     {
       "key": "qianqiuqiu",
@@ -19,6 +19,27 @@
       ],
       "updated": "2026-08-30T08:56:28Z",
       "category": "community"
+    },
+    {
+      "key": "qianqiuqiu-custom",
+      "displayName": "我是千秋秋",
+      "repository": "https://github.com/bongocat-pet/qianqiuqiu-custom",
+      "branch": "main",
+      "commit": "0754bbd2aafd7252496c41e3bc5c83df00ccc7d7",
+      "avatarSource": "a.webp",
+      "avatarFingerprint": "fc132f03ac3318ec2df6a27e542f91a448fe3396",
+      "authorLinks": [
+        {
+          "label": "QQ 3502829184",
+          "url": "https://qm.qq.com/"
+        },
+        {
+          "label": "Bilibili",
+          "url": "https://space.bilibili.com/589037324"
+        }
+      ],
+      "updated": "2026-08-30T10:40:16Z",
+      "category": "custom"
     },
     {
       "key": "yuhen",
@@ -88,6 +109,22 @@
       "sourceHash": "74c70a83e70a111c7e17693f462b9c34276aa6caaa179b00e979edc0d84784e4"
     },
     {
+      "id": "qianqiuqiu-custom-5808247a9867",
+      "name": "达妮娅",
+      "repositoryKey": "qianqiuqiu-custom",
+      "repository": "https://github.com/bongocat-pet/qianqiuqiu-custom",
+      "branch": "main",
+      "sourcePath": "models/达妮娅.webp",
+      "previewSource": "models/达妮娅.webp",
+      "previewFingerprint": "74f6ed401d921b6c685a91b83489514ef0abd0b7",
+      "fullVersionUrl": "",
+      "packageFilename": "达妮娅.zip",
+      "downloadFilename": "达妮娅.zip",
+      "size": 1096838,
+      "fileCount": 1,
+      "sourceHash": "dbb3fecc81e3df78f99c6c90983319c7ab33ddee1ce75362b11fe2144e91b6ab"
+    },
+    {
       "id": "yuhen-9a568796bac4",
       "name": "达妮娅-无表情版",
       "repositoryKey": "yuhen",
@@ -118,6 +155,22 @@
       "size": 5883499,
       "fileCount": 278,
       "sourceHash": "0b092cbee8d5604eff2174aa4d43c83cd81bb80edfb8f04ca94dd23ea2234171"
+    },
+    {
+      "id": "qianqiuqiu-custom-eded7cdf2ee1",
+      "name": "大傻椿",
+      "repositoryKey": "qianqiuqiu-custom",
+      "repository": "https://github.com/bongocat-pet/qianqiuqiu-custom",
+      "branch": "main",
+      "sourcePath": "models/大傻椿.webp",
+      "previewSource": "models/大傻椿.webp",
+      "previewFingerprint": "76de59098e2cc4a6c670a3ce984b8fc557377a38",
+      "fullVersionUrl": "",
+      "packageFilename": "大傻椿.zip",
+      "downloadFilename": "大傻椿.zip",
+      "size": 1273672,
+      "fileCount": 1,
+      "sourceHash": "c90ae67fc8db72dbc178d4ccb42650963d61af91c7ef61d0f80424e5199ea2f0"
     },
     {
       "id": "yuhen-bc5dc05f263b",
@@ -200,6 +253,22 @@
       "sourceHash": "ae41f7bb99d9acd8788e78d9914d7d5f1774a5e655769fd3704aef0f990ef22f"
     },
     {
+      "id": "qianqiuqiu-custom-59ad13bfc5a1",
+      "name": "卡提希娅",
+      "repositoryKey": "qianqiuqiu-custom",
+      "repository": "https://github.com/bongocat-pet/qianqiuqiu-custom",
+      "branch": "main",
+      "sourcePath": "models/卡提希娅.webp",
+      "previewSource": "models/卡提希娅.webp",
+      "previewFingerprint": "2fbd4a5618abd734d45609c4afdede40248f9d7e",
+      "fullVersionUrl": "",
+      "packageFilename": "卡提希娅.zip",
+      "downloadFilename": "卡提希娅.zip",
+      "size": 1376242,
+      "fileCount": 1,
+      "sourceHash": "2f5c44c08186773209c9fad1a32530c02753f247c2edd01e2bbe71be4faaeb35"
+    },
+    {
       "id": "qianqiuqiu-a2ab2e639d43",
       "name": "卡提希娅旧版",
       "repositoryKey": "qianqiuqiu",
@@ -216,6 +285,22 @@
       "sourceHash": "8cec9743a90edbc6b0300b776acdb19b59c93fb9243c5e3123695f16a9c4639b"
     },
     {
+      "id": "qianqiuqiu-custom-365031ee83ef",
+      "name": "卡提希娅夏日桌",
+      "repositoryKey": "qianqiuqiu-custom",
+      "repository": "https://github.com/bongocat-pet/qianqiuqiu-custom",
+      "branch": "main",
+      "sourcePath": "models/卡提希娅夏日桌.webp",
+      "previewSource": "models/卡提希娅夏日桌.webp",
+      "previewFingerprint": "a68355c61e0794a08c8af8dca56b4ee70b7714c1",
+      "fullVersionUrl": "",
+      "packageFilename": "卡提希娅夏日桌.zip",
+      "downloadFilename": "卡提希娅夏日桌.zip",
+      "size": 1362392,
+      "fileCount": 1,
+      "sourceHash": "ebe39aaa32006c94506c701cc9de205a354772215a7ec069a97615527f07bfcb"
+    },
+    {
       "id": "qianqiuqiu-a36bfbacff10",
       "name": "卡提希娅新版",
       "repositoryKey": "qianqiuqiu",
@@ -230,6 +315,22 @@
       "size": 10610938,
       "fileCount": 264,
       "sourceHash": "d46cc4b936d884f0b73920cb4f3ad26bb1d664a82e1078866d05ad46e1545513"
+    },
+    {
+      "id": "qianqiuqiu-custom-0c85e4fd5761",
+      "name": "珂莱塔",
+      "repositoryKey": "qianqiuqiu-custom",
+      "repository": "https://github.com/bongocat-pet/qianqiuqiu-custom",
+      "branch": "main",
+      "sourcePath": "models/珂莱塔.webp",
+      "previewSource": "models/珂莱塔.webp",
+      "previewFingerprint": "3e55050ae77060b6a66ad0cfeb212d992dedf629",
+      "fullVersionUrl": "",
+      "packageFilename": "珂莱塔.zip",
+      "downloadFilename": "珂莱塔.zip",
+      "size": 933742,
+      "fileCount": 1,
+      "sourceHash": "52e312d9cebcf9faf49137ce1c4906c85ea7174dfbe8154f0d1fc5ad383bb20b"
     },
     {
       "id": "yuhen-0477d544c923",
@@ -278,6 +379,38 @@
       "size": 54070590,
       "fileCount": 422,
       "sourceHash": "0a079d94c76bead49734db42767b2370b411e3353e8c5000a96bd883ba1e512b"
+    },
+    {
+      "id": "qianqiuqiu-custom-5d93f96dd43e",
+      "name": "满穗",
+      "repositoryKey": "qianqiuqiu-custom",
+      "repository": "https://github.com/bongocat-pet/qianqiuqiu-custom",
+      "branch": "main",
+      "sourcePath": "models/满穗.webp",
+      "previewSource": "models/满穗.webp",
+      "previewFingerprint": "5eb8f536a1c63caa3c2729ee07933439c97d8a0a",
+      "fullVersionUrl": "",
+      "packageFilename": "满穗.zip",
+      "downloadFilename": "满穗.zip",
+      "size": 972474,
+      "fileCount": 1,
+      "sourceHash": "7a28659302e9c425a78bd04d437ec3ecb47824958f08e3f5c3f46c4d7626a99f"
+    },
+    {
+      "id": "qianqiuqiu-custom-5ad57f64f095",
+      "name": "莫宁",
+      "repositoryKey": "qianqiuqiu-custom",
+      "repository": "https://github.com/bongocat-pet/qianqiuqiu-custom",
+      "branch": "main",
+      "sourcePath": "models/莫宁.webp",
+      "previewSource": "models/莫宁.webp",
+      "previewFingerprint": "64078af57c7e01302b70378a2ec2cf36141402ae",
+      "fullVersionUrl": "",
+      "packageFilename": "莫宁.zip",
+      "downloadFilename": "莫宁.zip",
+      "size": 938736,
+      "fileCount": 1,
+      "sourceHash": "e2471754b5a4fc8db5cb032191f0d23ba80dc8c909c5778ce8b9bbd2550f57b6"
     },
     {
       "id": "yuhen-72c40692de1b",
@@ -376,6 +509,22 @@
       "sourceHash": "aeffaf2ef28aa7262b6b38437246532ebb2e4595aef07897ceb096ce4d6a2d30"
     },
     {
+      "id": "qianqiuqiu-custom-af4d72d4e836",
+      "name": "西格莉卡团子",
+      "repositoryKey": "qianqiuqiu-custom",
+      "repository": "https://github.com/bongocat-pet/qianqiuqiu-custom",
+      "branch": "main",
+      "sourcePath": "models/西格莉卡团子.webp",
+      "previewSource": "models/西格莉卡团子.webp",
+      "previewFingerprint": "62f2f0e1b48559c74a7e21c0f8c52a19d9df451e",
+      "fullVersionUrl": "",
+      "packageFilename": "西格莉卡团子.zip",
+      "downloadFilename": "西格莉卡团子.zip",
+      "size": 1037952,
+      "fileCount": 1,
+      "sourceHash": "e2a8a74842f60cd1c90e66624e31644bcb37b937adf3f81abaed0e5c54914cdf"
+    },
+    {
       "id": "yuhen-759a7df33c43",
       "name": "新版银狼-无表情版",
       "repositoryKey": "yuhen",
@@ -408,6 +557,22 @@
       "sourceHash": "5a4ebcdd8d47cc0ba184efe294f792ad46707fda9c6bc11d1b7b931200e8bba6"
     },
     {
+      "id": "qianqiuqiu-custom-2b872fc1b81d",
+      "name": "要死酱",
+      "repositoryKey": "qianqiuqiu-custom",
+      "repository": "https://github.com/bongocat-pet/qianqiuqiu-custom",
+      "branch": "main",
+      "sourcePath": "models/要死酱.webp",
+      "previewSource": "models/要死酱.webp",
+      "previewFingerprint": "883773252fac2a8bd6343ada5190f4b17150034e",
+      "fullVersionUrl": "",
+      "packageFilename": "要死酱.zip",
+      "downloadFilename": "要死酱.zip",
+      "size": 838814,
+      "fileCount": 1,
+      "sourceHash": "dbd15e3b6bcfe12fec9e9b2546eaf167b1d6af8a6916f802d8841135cb6d36b8"
+    },
+    {
       "id": "yuhen-14df54283642",
       "name": "尤诺-无表情版",
       "repositoryKey": "yuhen",
@@ -422,6 +587,22 @@
       "size": 25233686,
       "fileCount": 419,
       "sourceHash": "6412bb0d3802a6922cf7f2ae72cfeeb5b6ad981472853ebee360aa10d5318f96"
+    },
+    {
+      "id": "qianqiuqiu-custom-aaf68ada0efc",
+      "name": "doro",
+      "repositoryKey": "qianqiuqiu-custom",
+      "repository": "https://github.com/bongocat-pet/qianqiuqiu-custom",
+      "branch": "main",
+      "sourcePath": "models/doro.webp",
+      "previewSource": "models/doro.webp",
+      "previewFingerprint": "5f74adbc5112dc909bbe44b49ec2ccac18162275",
+      "fullVersionUrl": "",
+      "packageFilename": "doro.zip",
+      "downloadFilename": "doro.zip",
+      "size": 1368438,
+      "fileCount": 1,
+      "sourceHash": "543d63111fe801a5d9cf377fa2cbff01034cc5d6358a5c1373bc6fd8e2a3cc62"
     }
   ]
 }
