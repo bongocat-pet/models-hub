@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildRepositoryCatalog, createCatalog, inspectModelRepository, parseAuthorLinks, parseModelLinks } from './catalog-builder.mjs';
+import { buildRepositoryCatalog, createCatalog, inspectModelRepository, parseAuthorLinks, parseAuthorName, parseModelLinks } from './catalog-builder.mjs';
 
 const organization = process.env.MODELS_GITHUB_ORG || 'bongocat-pet';
 const token = process.env.GITHUB_TOKEN;
@@ -26,6 +26,7 @@ const records = (await mapLimit(repositories, 6, async repository => {
     repository,
     tree,
     authorLinks: parseAuthorLinks(content),
+    authorName: parseAuthorName(content),
     modelLinks: parseModelLinks(linksContent, `${repository.name}/models/webp/links.json`),
     generated,
   });

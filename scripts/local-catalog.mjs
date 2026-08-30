@@ -3,7 +3,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { basename, resolve } from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
-import { buildRepositoryCatalog, createCatalog, parseAuthorLinks, parseModelLinks } from './catalog-builder.mjs';
+import { buildRepositoryCatalog, createCatalog, parseAuthorLinks, parseAuthorName, parseModelLinks } from './catalog-builder.mjs';
 
 const projectRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const sourceRoot = resolve(process.env.MODELS_SOURCE_ROOT || projectRoot, process.env.MODELS_SOURCE_REPOSITORY || '../yuhen');
@@ -32,6 +32,7 @@ const record = buildRepositoryCatalog({
   },
   tree,
   authorLinks: parseAuthorLinks(readme),
+  authorName: parseAuthorName(readme),
   modelLinks,
   generated,
 });

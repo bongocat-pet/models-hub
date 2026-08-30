@@ -26,7 +26,7 @@ export function inspectModelRepository(tree) {
   };
 }
 
-export function buildRepositoryCatalog({ repository, tree, authorLinks = [], modelLinks = {}, generated }) {
+export function buildRepositoryCatalog({ repository, tree, authorLinks = [], authorName = '', modelLinks = {}, generated }) {
   if (!repository?.name || !repository?.html_url || !repository?.default_branch) {
     throw new Error('Repository metadata is incomplete');
   }
@@ -73,6 +73,7 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], mod
   return {
     repository: {
       key: repository.name,
+      ...(String(authorName).trim() ? { displayName: String(authorName).trim() } : {}),
       repository: repository.html_url,
       branch: repository.default_branch,
       commit: tree.sha || '',
@@ -83,6 +84,10 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], mod
     },
     models,
   };
+}
+
+export function parseAuthorName(readme) {
+  return String(readme || '').split(/\r?\n/).map(line => line.trim()).find(Boolean) || '';
 }
 
 export function createCatalog(records, generated = new Date().toISOString()) {
