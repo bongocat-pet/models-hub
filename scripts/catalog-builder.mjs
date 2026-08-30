@@ -97,7 +97,7 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], aut
   };
 }
 
-function inspectCustomRepository(tree) {
+export function inspectCustomRepository(tree) {
   const files = normalizeTree(tree);
   const hasReadme = files.filter(file => README_PATTERN.test(file.path)).length === 1;
   const hasAvatar = files.filter(file => AVATAR_PATTERN.test(file.path)).length === 1;

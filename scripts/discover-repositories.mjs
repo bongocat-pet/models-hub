@@ -1,7 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildRepositoryCatalog, createCatalog, inspectModelRepository, parseAuthorLinks, parseAuthorName, parseModelLinks } from './catalog-builder.mjs';
+import { buildRepositoryCatalog, createCatalog, inspectCustomRepository, inspectModelRepository, parseAuthorLinks, parseAuthorName, parseModelLinks } from './catalog-builder.mjs';
 
 const organization = process.env.MODELS_GITHUB_ORG || 'bongocat-pet';
 const token = process.env.GITHUB_TOKEN;
@@ -17,7 +17,10 @@ const repositories = (await listRepositories()).filter(repository =>
   repository.name !== 'models-hub' && !repository.archived && !repository.disabled && !repository.fork && repository.default_branch);
 const records = (await mapLimit(repositories, 6, async repository => {
   const tree = await api(`/repos/${repository.full_name}/git/trees/${encodeURIComponent(repository.default_branch)}?recursive=1`, [404, 409]);
-  if (!tree || !inspectModelRepository(tree).shouldInclude) return null;
+  const inspection = repository.name.endsWith('-custom')
+    ? inspectCustomRepository(tree)
+    : inspectModelRepository(tree);
+  if (!tree || !inspection.shouldInclude) return null;
   const readme = await api(`/repos/${repository.full_name}/contents/README.md?ref=${encodeURIComponent(repository.default_branch)}`);
   const content = readme?.encoding === 'base64' ? Buffer.from(readme.content, 'base64').toString('utf8') : '';
   const linksFile = await api(`/repos/${repository.full_name}/contents/models/webp/links.json?ref=${encodeURIComponent(repository.default_branch)}`, [404]);
