@@ -11,6 +11,7 @@ export function createManifest(origin, r2Base = DEFAULT_R2_BASE) {
     avatar: assetUrl(origin, 'avatars', repository.key, repository.avatarSource, repository.avatarFingerprint),
     authorLinks: repository.authorLinks,
     updated: repository.updated,
+    ...(repository.category ? { category: repository.category } : {}),
   }]));
   const models = catalog.models.map(model => ({
     id: model.id,
@@ -21,7 +22,9 @@ export function createManifest(origin, r2Base = DEFAULT_R2_BASE) {
     sourceUrl: `${model.repository}/tree/${encodeURIComponent(model.branch)}/${encodePath(model.sourcePath)}`,
     preview: assetUrl(origin, 'previews', model.repositoryKey, `${model.name}.webp`, model.previewFingerprint),
     ...(model.fullVersionUrl ? { fullVersionUrl: model.fullVersionUrl } : {}),
-    downloadUrl: publicDownloadUrl(r2Base, model.repositoryKey, model.downloadFilename),
+    ...(model.repositoryKey.endsWith('-custom') ? {} : {
+      downloadUrl: publicDownloadUrl(r2Base, model.repositoryKey, model.downloadFilename),
+    }),
     fallbackDownloadUrl: `${RELEASE_BASE}/${encodeURIComponent(model.packageFilename)}`,
     downloadFilename: model.downloadFilename,
     size: model.size,
@@ -37,9 +40,9 @@ export function createManifest(origin, r2Base = DEFAULT_R2_BASE) {
   };
 }
 
-function publicDownloadUrl(base, repositoryKey, filename) {
+function publicDownloadUrl(base, repositoryKey, filename, section = 'models') {
   const root = String(base).replace(/\/+$/, '');
-  return `${root}/models/${encodeURIComponent(repositoryKey)}/${encodeURIComponent(filename)}`;
+  return `${root}/${section}/${encodeURIComponent(repositoryKey)}/${encodeURIComponent(filename)}`;
 }
 
 function assetUrl(origin, prefix, repositoryKey, filename, fingerprint) {

@@ -33,6 +33,10 @@ creator-repository/
 `yuhen` already follows this contract. New matching repositories and models are
 picked up by the half-hourly sync without editing this repository.
 
+Repositories ending in `-custom` are classified as custom works. For example,
+`qianqiuqiu-custom` is displayed on the website's `/custom` page. Custom
+repositories only need previews and are not packaged or uploaded to R2.
+
 When present, `models/webp/links.json` is a JSON object whose keys exactly match
 model directory names and whose values are public HTTPS full-version pages.
 

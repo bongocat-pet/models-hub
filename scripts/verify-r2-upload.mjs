@@ -5,7 +5,7 @@ if (!publicBase) throw new Error('Missing R2_PUBLIC_BASE_URL repository variable
 
 if (!catalog.models.length) throw new Error('No model packages were built');
 
-const urls = catalog.models.map(model =>
+const urls = catalog.models.filter(model => !model.repositoryKey.endsWith('-custom')).map(model =>
   `${publicBase}/models/${encodeURIComponent(model.repositoryKey)}/${encodeURIComponent(model.downloadFilename)}`
 );
 

@@ -33,7 +33,9 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], aut
   }
   const files = normalizeTree(tree);
   if (tree?.truncated) throw new Error(`${repository.name} returned a truncated Git tree`);
-  const inspection = inspectModelRepository(tree);
+  const inspection = repository.name.endsWith('-custom')
+    ? inspectCustomRepository(tree)
+    : inspectModelRepository(tree);
   if (!inspection.shouldInclude) throw new Error(`${repository.name} does not match the model repository contract`);
 
   const avatar = files.find(file => AVATAR_PATTERN.test(file.path));
@@ -50,7 +52,10 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], aut
   const models = names.flatMap(name => {
     const preview = files.find(file => file.path.toLowerCase() === `models/webp/${name}.webp`.toLowerCase());
     if (!preview) return [];
-    const modelFiles = files.filter(file => file.path.startsWith(`models/${name}/`));
+    const custom = repository.name.endsWith('-custom');
+    const modelFiles = custom
+      ? [preview]
+      : files.filter(file => file.path.startsWith(`models/${name}/`));
     const sourceHash = digest(modelFiles.map(file => `${file.path}\0${file.sha}\0${file.size}`).join('\n'));
     const id = `${slug(repository.name)}-${digest(name).slice(0, 12)}`;
     return [{
@@ -59,7 +64,7 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], aut
       repositoryKey: repository.name,
       repository: repository.html_url,
       branch: repository.default_branch,
-      sourcePath: `models/${name}`,
+      sourcePath: custom ? preview.path : `models/${name}`,
       previewSource: preview.path,
       previewFingerprint: preview.sha,
       fullVersionUrl: normalizedModelLinks[name] || '',
@@ -82,9 +87,18 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], aut
       avatarFingerprint: avatar.sha,
       authorLinks: normalizeLinks(authorLinks),
       updated: repository.pushed_at || generated,
+      category: repository.name.endsWith('-custom') ? 'custom' : 'community',
     },
     models,
   };
+}
+
+function inspectCustomRepository(tree) {
+  const files = normalizeTree(tree);
+  const hasReadme = files.filter(file => README_PATTERN.test(file.path)).length === 1;
+  const hasAvatar = files.filter(file => AVATAR_PATTERN.test(file.path)).length === 1;
+  const modelCount = files.filter(file => /^models\/webp\/.+\.webp$/i.test(file.path)).length;
+  return { hasReadme, hasAvatar, modelCount, shouldInclude: hasReadme && hasAvatar && modelCount > 0 };
 }
 
 export function parseAuthorName(readme) {
