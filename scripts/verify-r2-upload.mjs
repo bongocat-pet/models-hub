@@ -5,10 +5,9 @@ if (!publicBase) throw new Error('Missing R2_PUBLIC_BASE_URL repository variable
 
 if (!catalog.models.length) throw new Error('No model packages were built');
 
-const urls = catalog.models.flatMap(model => [
-  `${publicBase}/models/${encodeURIComponent(model.repositoryKey)}/${encodeURIComponent(model.downloadFilename)}`,
-  `${publicBase}/models/${encodeURIComponent(model.packageFilename)}`,
-]);
+const urls = catalog.models.map(model =>
+  `${publicBase}/models/${encodeURIComponent(model.repositoryKey)}/${encodeURIComponent(model.downloadFilename)}`
+);
 
 await Promise.all(urls.map(async (url) => {
   const response = await fetch(url, { method: 'HEAD' });
@@ -18,4 +17,4 @@ await Promise.all(urls.map(async (url) => {
   }
 }));
 
-console.log(`Verified ${catalog.models.length} named and legacy R2 packages.`);
+console.log(`Verified ${catalog.models.length} named R2 packages.`);

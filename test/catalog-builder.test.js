@@ -30,7 +30,7 @@ test('recognizes the repository contract and builds stable model metadata', () =
   assert.match(record.models[0].id, /^artist-[a-f0-9]{12}$/);
   assert.equal(record.models[0].fullVersionUrl, 'https://mall.bilibili.com/item/1');
   assert.equal(record.models[0].downloadFilename, '猫-无表情版.zip');
-  assert.match(record.models[0].packageFilename, /^artist-[a-f0-9]{12}\.zip$/);
+  assert.equal(record.models[0].packageFilename, '猫-无表情版.zip');
 });
 
 test('validates optional full-version model links', () => {
@@ -44,6 +44,18 @@ test('validates optional full-version model links', () => {
 test('requires a matching preview for every discovered model', () => {
   const missingPreview = { ...tree, tree: tree.tree.filter(file => !file.path.includes('/webp/')) };
   assert.equal(inspectModelRepository(missingPreview).shouldInclude, false);
+});
+
+test('recognizes config.json placed directly in the model directory', () => {
+  const directConfig = {
+    ...tree,
+    tree: tree.tree.map((file) => file.path === 'models/猫-无表情版/A-猫/config.json'
+      ? { ...file, path: 'models/猫-无表情版/config.json' }
+      : file.path === 'models/猫-无表情版/A-猫/0.png'
+        ? { ...file, path: 'models/猫-无表情版/0.png' }
+        : file),
+  };
+  assert.equal(inspectModelRepository(directConfig).shouldInclude, true);
 });
 
 test('reads standalone author links without scraping prose', () => {

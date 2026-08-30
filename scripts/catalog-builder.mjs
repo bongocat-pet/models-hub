@@ -2,7 +2,8 @@ import { createHash } from 'node:crypto';
 
 const AVATAR_PATTERN = /^a\.(?:gif|webp|png|jpe?g)$/i;
 const README_PATTERN = /^readme\.md$/i;
-const CONFIG_PATTERN = /^models\/([^/]+)\/.+\/config\.json$/i;
+// Accept packages that place config.json directly in the model directory as well as nested layouts.
+const CONFIG_PATTERN = /^models\/([^/]+)\/(?:.+\/)?config\.json$/i;
 
 export function inspectModelRepository(tree) {
   const files = normalizeTree(tree);
@@ -62,7 +63,7 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], aut
       previewSource: preview.path,
       previewFingerprint: preview.sha,
       fullVersionUrl: normalizedModelLinks[name] || '',
-      packageFilename: `${id}.zip`,
+      packageFilename: `${name}.zip`,
       downloadFilename: `${name}.zip`,
       size: modelFiles.reduce((total, file) => total + file.size, 0),
       fileCount: modelFiles.length,
