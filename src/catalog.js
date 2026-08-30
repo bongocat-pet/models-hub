@@ -5,6 +5,7 @@ const RELEASE_BASE = 'https://github.com/bongocat-pet/models-hub/releases/downlo
 
 export function createManifest(origin, r2Base = DEFAULT_R2_BASE) {
   const repositories = Object.fromEntries(catalog.repositories.map(repository => [repository.key, {
+    ...(repository.displayName ? { displayName: repository.displayName } : {}),
     repository: repository.repository,
     branch: repository.branch,
     avatar: assetUrl(origin, 'avatars', repository.key, repository.avatarSource, repository.avatarFingerprint),
