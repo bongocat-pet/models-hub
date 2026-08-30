@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { buildRepositoryCatalog, inspectModelRepository, parseAuthorLinks, parseModelLinks } from '../scripts/catalog-builder.mjs';
+import { buildRepositoryCatalog, inspectCustomRepository, inspectModelRepository, parseAuthorLinks, parseModelLinks } from '../scripts/catalog-builder.mjs';
 
 const tree = {
   sha: 'commit',
@@ -63,4 +63,25 @@ test('reads standalone author links without scraping prose', () => {
     { label: 'Bilibili', url: 'https://space.bilibili.com/1' },
     { label: 'Home', url: 'https://example.com/me' },
   ]);
+});
+
+test('recognizes custom repositories with previews directly under models', () => {
+  const customTree = {
+    sha: 'custom-commit',
+    tree: [
+      { type: 'blob', path: 'README.md', sha: 'r', size: 10 },
+      { type: 'blob', path: 'a.webp', sha: 'a', size: 20 },
+      { type: 'blob', path: 'models/猫.webp', sha: 'p', size: 30 },
+    ],
+  };
+  assert.equal(inspectCustomRepository(customTree).shouldInclude, true);
+  const record = buildRepositoryCatalog({
+    repository: { name: 'artist-custom', html_url: 'https://github.com/org/artist-custom', default_branch: 'main', pushed_at: 'now' },
+    tree: customTree,
+    authorLinks: parseAuthorLinks('123456789'),
+    generated: 'now',
+  });
+  assert.equal(record.models.length, 1);
+  assert.equal(record.models[0].previewSource, 'models/猫.webp');
+  assert.deepEqual(record.repository.authorLinks, [{ label: 'QQ 123456789', url: 'https://qm.qq.com/' }]);
 });

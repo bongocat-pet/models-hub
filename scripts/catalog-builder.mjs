@@ -42,7 +42,7 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], aut
   const custom = repository.name.endsWith('-custom');
   const names = [...new Set(files.flatMap(file => {
     if (custom) {
-      const match = file.path.match(/^models\/webp\/(.+)\.webp$/i);
+      const match = file.path.match(/^models\/(?:webp\/)?([^/]+)\.webp$/i);
       return match ? [match[1]] : [];
     }
     const match = file.path.match(CONFIG_PATTERN);
@@ -55,7 +55,10 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], aut
   }
 
   const models = names.flatMap(name => {
-    const preview = files.find(file => file.path.toLowerCase() === `models/webp/${name}.webp`.toLowerCase());
+    const preview = files.find(file => custom
+      ? /^models\/(?:webp\/)?[^/]+\.webp$/i.test(file.path)
+        && file.path.slice(file.path.lastIndexOf('/') + 1).replace(/\.webp$/i, '') === name
+      : file.path.toLowerCase() === `models/webp/${name}.webp`.toLowerCase());
     if (!preview) return [];
     const modelFiles = custom
       ? [preview]
@@ -101,7 +104,7 @@ export function inspectCustomRepository(tree) {
   const files = normalizeTree(tree);
   const hasReadme = files.filter(file => README_PATTERN.test(file.path)).length === 1;
   const hasAvatar = files.filter(file => AVATAR_PATTERN.test(file.path)).length === 1;
-  const modelCount = files.filter(file => /^models\/webp\/.+\.webp$/i.test(file.path)).length;
+  const modelCount = files.filter(file => /^models\/(?:webp\/)?[^/]+\.webp$/i.test(file.path)).length;
   return { hasReadme, hasAvatar, modelCount, shouldInclude: hasReadme && hasAvatar && modelCount > 0 };
 }
 
@@ -122,6 +125,11 @@ export function parseAuthorLinks(readme) {
     const line = rawLine.trim().replace(/^[-*+]\s+/, '');
     const markdown = line.match(/^\[([^\]]+)]\((https?:\/\/[^\s)]+)\)$/i);
     const plain = line.match(/^(https?:\/\/\S+)$/i);
+    const qq = line.match(/^\d{5,12}$/);
+    if (qq) {
+      links.push({ label: `QQ ${qq[0]}`, url: 'https://qm.qq.com/' });
+      continue;
+    }
     if (!markdown && !plain) continue;
     const url = new URL(markdown?.[2] || plain[1]).toString();
     const label = markdown?.[1].trim() || platformLabel(new URL(url));

@@ -13,7 +13,7 @@ for (const repository of catalog.repositories) {
   await run('git', ['clone', '--depth', '1', '--filter=blob:none', '--sparse', '--branch', repository.branch, repository.repository, destination]);
   await run('git', [
     '-C', destination, 'sparse-checkout', 'set', '--no-cone', '--',
-    `/${repository.avatarSource}`, '/models/webp/',
+    `/${repository.avatarSource}`, '/models/webp/', ...(repository.key.endsWith('-custom') ? ['/models/'] : []),
   ]);
 }
 
