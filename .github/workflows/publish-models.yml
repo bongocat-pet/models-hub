@@ -107,10 +107,8 @@ jobs:
           fi
           gh release view models --json assets --jq '.assets[].name' > "$RUNNER_TEMP/published-model-assets.txt"
           for package in release-assets/*.zip; do
-            asset=$(basename "$package")
-            if ! grep -Fxq -- "$asset" "$RUNNER_TEMP/published-model-assets.txt"; then
-              gh release upload models "$package"
-            fi
+            [ -f "$package" ] || continue
+            gh release upload models "$package" --clobber
           done
           while IFS= read -r asset; do
             if [ ! -f "release-assets/$asset" ]; then
