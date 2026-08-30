@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "293a4d602fa6b20c",
-  "generated": "2026-08-30T09:20:14.811Z",
+  "revision": "86ad5b89690eb5f1",
+  "generated": "2026-08-30T12:44:56.752Z",
   "repositories": [
     {
       "key": "qianqiuqiu",
@@ -17,7 +17,8 @@
           "url": "https://space.bilibili.com/589037324"
         }
       ],
-      "updated": "2026-08-30T08:56:28Z"
+      "updated": "2026-08-30T08:56:28Z",
+      "category": "community"
     },
     {
       "key": "yuhen",
@@ -33,7 +34,8 @@
           "url": "https://space.bilibili.com/348616056"
         }
       ],
-      "updated": "2026-08-27T03:41:25Z"
+      "updated": "2026-08-27T03:41:25Z",
+      "category": "community"
     }
   ],
   "models": [
