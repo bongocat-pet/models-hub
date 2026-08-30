@@ -39,7 +39,12 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], aut
   if (!inspection.shouldInclude) throw new Error(`${repository.name} does not match the model repository contract`);
 
   const avatar = files.find(file => AVATAR_PATTERN.test(file.path));
+  const custom = repository.name.endsWith('-custom');
   const names = [...new Set(files.flatMap(file => {
+    if (custom) {
+      const match = file.path.match(/^models\/webp\/(.+)\.webp$/i);
+      return match ? [match[1]] : [];
+    }
     const match = file.path.match(CONFIG_PATTERN);
     return match ? [match[1]] : [];
   }))].sort(naturalCompare);
@@ -52,7 +57,6 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], aut
   const models = names.flatMap(name => {
     const preview = files.find(file => file.path.toLowerCase() === `models/webp/${name}.webp`.toLowerCase());
     if (!preview) return [];
-    const custom = repository.name.endsWith('-custom');
     const modelFiles = custom
       ? [preview]
       : files.filter(file => file.path.startsWith(`models/${name}/`));
