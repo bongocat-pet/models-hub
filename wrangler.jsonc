@@ -3,6 +3,9 @@
   "name": "bongocat-models-hub",
   "main": "src/index.js",
   "compatibility_date": "2026-08-26",
+  "routes": [
+    { "pattern": "models.bongocat.pet", "custom_domain": true }
+  ],
   "build": {
     "command": "npm run build:assets",
     "watch_dir": ["src", "scripts", "data"]
@@ -12,6 +15,14 @@
     "binding": "ASSETS",
     "run_worker_first": ["/avatars/*", "/previews/*"]
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "bongocat-model-stats",
+      "database_id": "66340bd9-11c6-4e4e-b0ea-60fbb3e0a108",
+      "migrations_dir": "./migrations"
+    }
+  ],
   "observability": { "enabled": true },
   "vars": {
     "ALLOWED_ORIGIN": "*",

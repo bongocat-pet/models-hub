@@ -22,8 +22,9 @@ export function createManifest(origin, r2Base = DEFAULT_R2_BASE) {
     sourceUrl: `${model.repository}/tree/${encodeURIComponent(model.branch)}/${encodePath(model.sourcePath)}`,
     preview: assetUrl(origin, 'previews', model.repositoryKey, `${model.name}.webp`, model.previewFingerprint),
     ...(model.fullVersionUrl ? { fullVersionUrl: model.fullVersionUrl } : {}),
+    ...(model.fullVersionUrl ? { fullVersionTrackUrl: `${origin}/workshop/${encodeURIComponent(model.id)}` } : {}),
     ...(model.repositoryKey.endsWith('-custom') ? {} : {
-      downloadUrl: publicDownloadUrl(r2Base, model.repositoryKey, model.downloadFilename),
+      downloadUrl: `${origin}/download/${encodeURIComponent(model.id)}`,
     }),
     fallbackDownloadUrl: `${RELEASE_BASE}/${encodeURIComponent(model.packageFilename)}`,
     downloadFilename: model.downloadFilename,
@@ -40,7 +41,11 @@ export function createManifest(origin, r2Base = DEFAULT_R2_BASE) {
   };
 }
 
-function publicDownloadUrl(base, repositoryKey, filename, section = 'models') {
+export function findModel(modelId) {
+  return catalog.models.find(model => model.id === modelId);
+}
+
+export function publicDownloadUrl(base, repositoryKey, filename, section = 'models') {
   const root = String(base).replace(/\/+$/, '');
   return `${root}/${section}/${encodeURIComponent(repositoryKey)}/${encodeURIComponent(filename)}`;
 }

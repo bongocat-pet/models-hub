@@ -4,14 +4,42 @@ Model registry, preview CDN, and package publisher for the BongoCat website.
 
 ## Public API
 
-- `GET /models.json` returns every discovered model with its primary R2 URL and
-  GitHub Release fallback URL.
+- `GET /models.json` returns every discovered model with its tracked R2 download
+  URL and GitHub Release fallback URL, plus public download and workshop click counts.
+- `GET /download/:model-id` records a free-package download and redirects to R2.
+- `GET /workshop/:model-id` records a workshop click and redirects to the
+  creator's Bilibili page.
 - `GET /previews/:repository/:model.webp` serves model previews.
 - `GET /avatars/:repository/a.*` serves creator avatars.
 - `GET /health` reports Worker health.
 
 The recommended production origin is `https://models.bongocat.pet`. The API is
 public, CORS-enabled, and designed for `official-website` and third-party clients.
+
+### D1 event storage
+
+Download and workshop counters are stored in Cloudflare D1. The Worker keeps
+serving and redirecting normally when no D1 binding is configured, but counts
+will remain zero until the binding is added. The production database is already
+declared in `wrangler.jsonc`; for a new environment, create a database and
+apply the included migration:
+
+```bash
+npx wrangler d1 create bongocat-model-stats
+npx wrangler d1 migrations apply bongocat-model-stats --remote
+```
+
+Then add the returned binding to `wrangler.jsonc` (replace the ID with the value
+printed by Wrangler), if it is not already present:
+
+```jsonc
+"d1_databases": [{
+  "binding": "DB",
+  "database_name": "bongocat-model-stats",
+  "database_id": "YOUR_D1_DATABASE_ID",
+  "migrations_dir": "./migrations"
+}]
+```
 
 ## Repository contract
 
