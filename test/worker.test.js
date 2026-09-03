@@ -24,6 +24,17 @@ test('supports a configured R2 public origin', async () => {
   assert.match(manifest.models[0].downloadUrl, /^https:\/\/models\.example\/download\/yuhen-/);
 });
 
+test('serves the desktop release manifest from the configured R2 origin', async () => {
+  const response = await worker.fetch(new Request('https://models.example/releases.json'), {
+    R2_PUBLIC_BASE_URL: 'https://cdn.example/',
+  });
+  const manifest = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(manifest.tag, 'v1.4.0');
+  assert.match(manifest.assets[0].downloadUrl, /^https:\/\/cdn\.example\/desktop\/v1\.4\.0\//);
+  assert.equal(response.headers.get('Access-Control-Allow-Origin'), '*');
+});
+
 test('tracks downloads and workshop clicks before redirecting', async () => {
   const events = [];
   const db = {

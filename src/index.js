@@ -1,6 +1,7 @@
 import { createManifest } from './catalog.js';
 import { corsHeaders, jsonResponse } from './http.js';
 import { addModelStats } from './model-stats.js';
+import { createDesktopReleaseManifest } from './releases.js';
 import { handleTrackedRedirect } from './tracked-redirect.js';
 
 const MANIFEST_CACHE = 'public, max-age=60, s-maxage=60, stale-while-revalidate=3600, stale-if-error=86400';
@@ -22,6 +23,15 @@ export default {
     if (url.pathname === '/models.json') {
       const manifest = await addModelStats(createManifest(url.origin, env.R2_PUBLIC_BASE_URL), env.DB);
       return jsonResponse(manifest, 200, cors, request.method, { 'Cache-Control': MANIFEST_CACHE });
+    }
+    if (url.pathname === '/releases.json') {
+      return jsonResponse(
+        createDesktopReleaseManifest(env.R2_PUBLIC_BASE_URL),
+        200,
+        cors,
+        request.method,
+        { 'Cache-Control': MANIFEST_CACHE },
+      );
     }
     if (url.pathname.startsWith('/download/')) {
       return handleTrackedRedirect(request, env, cors, url.pathname.slice('/download/'.length), 'download');

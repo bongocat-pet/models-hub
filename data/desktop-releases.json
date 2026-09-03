@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "repository": "https://github.com/vladelaina/BongoCat",
+  "tag": "v1.4.0",
+  "releaseUrl": "https://github.com/vladelaina/BongoCat/releases/tag/v1.4.0",
+  "generated": "2026-09-03T00:00:00.000Z",
+  "assets": [
+    {
+      "filename": "BongoCat-1.4.0-windows-x64-setup.exe",
+      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-windows-x64-setup.exe",
+      "platform": "windows",
+      "variant": "windows-x64-setup.exe",
+      "sha256": "477b5ac27e61f7fd430d9ecd79dccaeb3218f04b324e1e0e4b451f2c9c3110e5"
+    },
+    {
+      "filename": "BongoCat-1.4.0-windows-x64-portable.exe",
+      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-windows-x64-portable.exe",
+      "platform": "windows",
+      "variant": "windows-x64-portable.exe",
+      "sha256": "3c1c7caae7c7137909da90dc3d210315b28792163bcbaa161c8fafcda5eb7522"
+    },
+    {
+      "filename": "BongoCat-1.4.0-windows-x86-setup.exe",
+      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-windows-x86-setup.exe",
+      "platform": "windows",
+      "variant": "windows-x86-setup.exe",
+      "sha256": "fc4ed925a15226f4eeaca2e50a501818b4dd22badf9e3561ae077a5429bdcc1c"
+    },
+    {
+      "filename": "BongoCat-1.4.0-windows-x86-portable.exe",
+      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-windows-x86-portable.exe",
+      "platform": "windows",
+      "variant": "windows-x86-portable.exe",
+      "sha256": "e4ba899a67a0bdad75e5f96894351ef36c25467ee87f64455963fcd888b93687"
+    },
+    {
+      "filename": "BongoCat-1.4.0-macos-arm64.zip",
+      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-macos-arm64.zip",
+      "platform": "macos",
+      "variant": "macos-arm64.zip",
+      "sha256": "d6c2f44b09df5af86eb91864ad41b199a71ce3e1af1f002de6838ef7d2bc5598"
+    },
+    {
+      "filename": "BongoCat-1.4.0-macos-x64.zip",
+      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-macos-x64.zip",
+      "platform": "macos",
+      "variant": "macos-x64.zip",
+      "sha256": "0fd4b283840f75b0cec3871f86f803d2478cebd185ae7ba40bfb7b0d69a8c328"
+    },
+    {
+      "filename": "BongoCat-1.4.0-linux-x64.tar.gz",
+      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-linux-x64.tar.gz",
+      "platform": "linux",
+      "variant": "linux-x64.tar.gz",
+      "sha256": "d1c97444626a46e86a6750bbc5cdea52de1326ffb60066602fabf341815665a7"
+    }
+  ]
+}
