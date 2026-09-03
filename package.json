@@ -9,12 +9,12 @@
     "stage": "node scripts/stage-assets.mjs",
     "build:assets": "node scripts/build-assets.mjs",
     "package": "node scripts/package-models.mjs",
-    "sync:desktop": "node scripts/sync-desktop-release.mjs",
+    "sync:desktop": "node scripts/desktop/sync-release.mjs",
     "verify:r2": "node scripts/verify-r2-upload.mjs",
     "verify:deployment": "node scripts/verify-deployment.mjs",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
-    "test": "for file in scripts/*.mjs src/*.js; do node --check \"$file\" || exit 1; done; node --test"
+    "test": "find scripts src -type f \\( -name '*.mjs' -o -name '*.js' \\) -print0 | xargs -0 -n1 node --check && node --test"
   },
   "devDependencies": {
     "wrangler": "^4.125.0"

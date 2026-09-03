@@ -1,4 +1,4 @@
-import desktopRelease from '../data/desktop-releases.json' with { type: 'json' };
+import desktopRelease from '../../data/desktop-releases.json' with { type: 'json' };
 
 const DEFAULT_R2_PUBLIC_BASE_URL = 'https://downloads.bongocat.pet';
 

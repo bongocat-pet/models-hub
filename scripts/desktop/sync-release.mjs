@@ -5,7 +5,7 @@ import { basename, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 
-const projectRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
+const projectRoot = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const manifestPath = resolve(projectRoot, 'data/desktop-releases.json');
 const repository = process.env.DESKTOP_RELEASE_REPOSITORY || 'vladelaina/BongoCat';
 const bucket = process.env.R2_BUCKET_NAME;

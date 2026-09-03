@@ -1,7 +1,7 @@
 import { createManifest } from './catalog.js';
 import { corsHeaders, jsonResponse } from './http.js';
 import { addModelStats } from './model-stats.js';
-import { createDesktopReleaseManifest } from './releases.js';
+import { createDesktopReleaseManifest } from './desktop/release-manifest.js';
 import { handleTrackedRedirect } from './tracked-redirect.js';
 
 const MANIFEST_CACHE = 'public, max-age=60, s-maxage=60, stale-while-revalidate=3600, stale-if-error=86400';

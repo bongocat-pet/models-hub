@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'scripts/sync-desktop-release.mjs'
+      - 'scripts/desktop/sync-release.mjs'
       - 'package.json'
       - '.github/workflows/sync-desktop.yml'
   schedule:

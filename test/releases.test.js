@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { buildDesktopReleaseManifest, inferPlatform, inferVariant } from '../scripts/sync-desktop-release.mjs';
-import { createDesktopReleaseManifest } from '../src/releases.js';
+import { buildDesktopReleaseManifest, inferPlatform, inferVariant } from '../scripts/desktop/sync-release.mjs';
+import { createDesktopReleaseManifest } from '../src/desktop/release-manifest.js';
 
 test('classifies desktop release asset names', () => {
   assert.equal(inferPlatform('BongoCat-1.4.0-windows-x64-setup.exe'), 'windows');
