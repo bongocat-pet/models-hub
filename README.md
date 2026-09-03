@@ -18,15 +18,23 @@ public, CORS-enabled, and designed for `official-website` and third-party client
 
 ### D1 event storage
 
-Download and workshop counters are stored in Cloudflare D1. The Worker keeps
-serving and redirecting normally when no D1 binding is configured, but counts
-will remain zero until the binding is added. The production database is already
-declared in `wrangler.jsonc`; for a new environment, create a database and
-apply the included migration:
+Download and workshop counters are stored in Cloudflare D1. Each IP is stored
+only as a hash for deduplication: the same hashed IP, model, and event type is
+counted at most once in a rolling 24-hour window. Repeated requests still
+redirect normally. The Worker keeps serving and redirecting normally when no
+D1 binding is configured, but counts will remain zero until the binding is
+added. The production database is already declared in `wrangler.jsonc`; for a
+new environment, create a database and apply the included migrations:
 
 ```bash
 npx wrangler d1 create bongocat-model-stats
 npx wrangler d1 migrations apply bongocat-model-stats --remote
+```
+
+Set a private salt for IP hashing in production:
+
+```bash
+npx wrangler secret put IP_HASH_SECRET
 ```
 
 Then add the returned binding to `wrangler.jsonc` (replace the ID with the value

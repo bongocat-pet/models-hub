@@ -14,8 +14,25 @@ export async function handleTrackedRedirect(request, env, cors, encodedModelId, 
   const destination = eventDestination(model, eventType, env.R2_PUBLIC_BASE_URL);
   if (!destination) return jsonResponse({ error: 'Download unavailable' }, 404, cors, request.method);
 
-  if (request.method === 'GET') await recordModelEventSafely(env.DB, model.id, eventType);
+  if (request.method === 'GET') {
+    const ipHash = await hashClientIp(request, env.IP_HASH_SECRET);
+    await recordModelEventSafely(env.DB, model.id, eventType, ipHash);
+  }
   return redirectResponse(destination, cors);
+}
+
+async function hashClientIp(request, secret = '') {
+  const ip = request.headers.get('CF-Connecting-IP')?.trim();
+  if (!ip) return '';
+
+  try {
+    const input = new TextEncoder().encode(`${String(secret)}:${ip}`);
+    const digest = await crypto.subtle.digest('SHA-256', input);
+    return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+  } catch (error) {
+    console.error('Unable to hash client IP', error);
+    return '';
+  }
 }
 
 function decodeModelId(encodedModelId) {

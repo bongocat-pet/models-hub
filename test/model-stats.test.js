@@ -44,6 +44,41 @@ test('writes each event to its dedicated counter', async () => {
   assert.deepEqual(statements.map(statement => statement.modelId), ['model-a', 'model-a']);
 });
 
+test('deduplicates the same IP, model, and event within the rolling window', async () => {
+  let dedupAttempts = 0;
+  let countedEvents = 0;
+  const db = {
+    prepare(sql) {
+      if (sql.includes('model_event_dedup')) {
+        return {
+          bind() {
+            return {
+              async first() {
+                dedupAttempts += 1;
+                return dedupAttempts === 1 ? { model_id: 'model-a' } : null;
+              },
+              async run() {},
+            };
+          },
+        };
+      }
+      return {
+        bind() {
+          return {
+            async run() { countedEvents += 1; },
+          };
+        },
+      };
+    },
+  };
+
+  await recordModelEventSafely(db, 'model-a', 'download', 'ip-hash');
+  await recordModelEventSafely(db, 'model-a', 'download', 'ip-hash');
+
+  assert.equal(dedupAttempts, 2);
+  assert.equal(countedEvents, 1);
+});
+
 test('falls back to zero counters when D1 is unavailable', async () => {
   const originalError = console.error;
   console.error = () => undefined;
