@@ -74,6 +74,11 @@ Repositories ending in `-custom` are classified as custom works. For example,
 repositories only need previews and are not packaged or uploaded to R2.
 Their previews may be placed directly in `models/` (or in `models/webp/`).
 
+Custom repository README files may also provide the artist's service details
+using `# About` and `# Pricing` sections. `About` is displayed as the full
+service description, while `Pricing` is intended for a short starting price or
+price range such as `¥100 起`.
+
 When present, `models/webp/links.json` is a JSON object whose keys exactly match
 model directory names and whose values are public HTTPS full-version pages.
 

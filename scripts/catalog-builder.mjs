@@ -27,7 +27,7 @@ export function inspectModelRepository(tree) {
   };
 }
 
-export function buildRepositoryCatalog({ repository, tree, authorLinks = [], authorName = '', modelLinks = {}, generated }) {
+export function buildRepositoryCatalog({ repository, tree, authorLinks = [], authorName = '', about = '', pricing = '', modelLinks = {}, generated }) {
   if (!repository?.name || !repository?.html_url || !repository?.default_branch) {
     throw new Error('Repository metadata is incomplete');
   }
@@ -87,6 +87,8 @@ export function buildRepositoryCatalog({ repository, tree, authorLinks = [], aut
     repository: {
       key: repository.name,
       ...(String(authorName).trim() ? { displayName: String(authorName).trim() } : {}),
+      ...(String(about).trim() ? { about: String(about).trim() } : {}),
+      ...(String(pricing).trim() ? { pricing: String(pricing).trim() } : {}),
       repository: repository.html_url,
       branch: repository.default_branch,
       commit: tree.sha || '',
@@ -110,6 +112,29 @@ export function inspectCustomRepository(tree) {
 
 export function parseAuthorName(readme) {
   return String(readme || '').split(/\r?\n/).map(line => line.trim()).find(Boolean) || '';
+}
+
+export function parseRepositoryDetails(readme) {
+  const sections = { about: [], pricing: [] };
+  let activeSection = '';
+
+  for (const rawLine of String(readme || '').split(/\r?\n/)) {
+    const heading = rawLine.match(/^#\s+(About|Pricing)\s*$/i);
+    if (heading) {
+      activeSection = heading[1].toLowerCase();
+      continue;
+    }
+    if (/^#\s+/.test(rawLine)) {
+      activeSection = '';
+      continue;
+    }
+    if (activeSection) sections[activeSection].push(rawLine);
+  }
+
+  return {
+    about: trimSection(sections.about),
+    pricing: trimSection(sections.pricing),
+  };
 }
 
 export function createCatalog(records, generated = new Date().toISOString()) {
@@ -164,6 +189,14 @@ function normalizeTree(tree) {
   return (Array.isArray(tree?.tree) ? tree.tree : [])
     .filter(entry => entry?.type === 'blob' && typeof entry.path === 'string')
     .map(entry => ({ path: entry.path, sha: String(entry.sha || ''), size: Number(entry.size) || 0 }));
+}
+
+function trimSection(lines) {
+  let start = 0;
+  let end = lines.length;
+  while (start < end && !lines[start].trim()) start += 1;
+  while (end > start && !lines[end - 1].trim()) end -= 1;
+  return lines.slice(start, end).join('\n').trim();
 }
 
 function normalizeLinks(links) {
