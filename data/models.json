@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "9fc9efef36810737",
-  "generated": "2026-09-04T04:27:35.050Z",
+  "revision": "493d397c832f5755",
+  "generated": "2026-09-05T08:33:13.446Z",
   "repositories": [
     {
       "key": "qianqiuqiu",
@@ -24,10 +24,10 @@
       "key": "qianqiuqiu-custom",
       "displayName": "我是千秋秋",
       "about": "提供 BongoCat 桌宠形象定制，具体价格与可选服务如下：\n\n价格表\n\n✧无九轴款 100r（含修改适配桌宠形象。）\n（鼠标、鼠标垫、键盘和桌面，会根据角色元素进行简单修改。）制作时长 1～2 天。\n\n可附加：\n\n1. 语音一条 3r（自备语音）。\n2. 眨眼、眼睛跟随（带拆分）25r。\n3. 表情或装饰一个 15r。\n4. 按键气泡 15r。\n\n✧带九轴款 300r（含绘画拆分）。\n表情装饰 3 套（1 表情、1 装饰），外加你自己定的 1 套表情或装饰。（鼠标、鼠标垫、键盘和桌面，会根据角色元素进行简单修改。）制作时长 2～4 天。\n\n可附加：\n\n1. 外加表情装饰一个 30r。\n2. 鼠标外形修改或替换其他物品 30r。\n3. 鼠标垫替换 10r。\n4. 桌面添加装饰一个 10r。\n5. 专属键盘 100r。\n6. 专属桌面 120r。\n7. 全字母数字键位 50r（按键反馈改为气泡）。\n8. 全键位 80r（按键反馈改为气泡）。\n9. 如需加动画或语音，价格可商议。",
-      "pricing": "¥100 起",
+      "pricing": "100",
       "repository": "https://github.com/bongocat-pet/qianqiuqiu-custom",
       "branch": "main",
-      "commit": "2c6c99db423b6fe22702f9cd9e0107ea3a7db631",
+      "commit": "1c05c726c030dada53ab94973577ecbfa21f88b1",
       "avatarSource": "a.webp",
       "avatarFingerprint": "fc132f03ac3318ec2df6a27e542f91a448fe3396",
       "authorLinks": [
@@ -40,7 +40,7 @@
           "url": "https://space.bilibili.com/589037324"
         }
       ],
-      "updated": "2026-09-04T01:28:49Z",
+      "updated": "2026-09-05T07:57:03Z",
       "category": "custom"
     },
     {
