@@ -76,8 +76,9 @@ Their previews may be placed directly in `models/` (or in `models/webp/`).
 
 Custom repository README files may also provide the artist's service details
 using `# About` and `# Pricing` sections. `About` is displayed as the full
-service description, while `Pricing` is intended for a short starting price or
-price range such as `¥100 起`.
+service description, while `Pricing` is intended for a short, language-neutral
+price or price range such as `100` or `100-300`. The website localizes the
+starting-price label when a single price is provided.
 
 When present, `models/webp/links.json` is a JSON object whose keys exactly match
 model directory names and whose values are public HTTPS full-version pages.

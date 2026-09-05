@@ -77,10 +77,10 @@ test('reads About and Pricing sections from repository README files', () => {
 
 # Pricing
 
-¥100 起
+100
 `), {
     about: '提供桌宠定制。\n\n1. 可附加语音。',
-    pricing: '¥100 起',
+    pricing: '100',
   });
 });
 
@@ -99,12 +99,12 @@ test('recognizes custom repositories with previews directly under models', () =>
     tree: customTree,
     authorLinks: parseAuthorLinks('123456789'),
     about: '提供桌宠定制。',
-    pricing: '¥100 起',
+    pricing: '100',
     generated: 'now',
   });
   assert.equal(record.models.length, 1);
   assert.equal(record.models[0].previewSource, 'models/猫.webp');
   assert.deepEqual(record.repository.authorLinks, [{ label: 'QQ 123456789', url: 'https://qm.qq.com/' }]);
   assert.equal(record.repository.about, '提供桌宠定制。');
-  assert.equal(record.repository.pricing, '¥100 起');
+  assert.equal(record.repository.pricing, '100');
 });
