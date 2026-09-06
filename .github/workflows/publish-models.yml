@@ -71,6 +71,12 @@ jobs:
             exit "$status"
           fi
           echo "$result"
+      - name: Discover latest models for manual publishing
+        if: github.event_name == 'workflow_dispatch'
+        run: npm run discover
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm test
       - name: Build one ZIP per model
         run: npm run package
       - name: Upload packages to Cloudflare R2
@@ -97,6 +103,20 @@ jobs:
         env:
           R2_PUBLIC_BASE_URL: ${{ vars.R2_PUBLIC_BASE_URL }}
         run: npm run verify:r2
+      - name: Commit verified catalog changes
+        if: github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: |
+          git add data/models.json
+          if git diff --cached --quiet; then
+            echo "Model catalog is already current."
+            exit 0
+          fi
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git commit -m "chore: sync model catalog"
+          git pull --rebase origin main
+          git push origin HEAD:main
       - name: Update stable release assets
         shell: bash
         env:

@@ -85,6 +85,13 @@ model directory names and whose values are public HTTPS full-version pages.
 
 ## Publishing flow
 
+To pick up a newly pushed model immediately, run **Sync model catalog** in
+GitHub Actions. It discovers new models and starts **Publish model packages**
+when the catalog changes. Manually running **Publish model packages** also
+discovers the latest models before packaging, then commits the updated catalog
+after public R2 downloads pass verification. The catalog commit lets Cloudflare
+Workers Builds update the website's model list and previews.
+
 The catalog sync reads GitHub trees without cloning large model repositories and
 commits `data/models.json` only when source metadata changes. A catalog change
 triggers the package workflow, which creates one ZIP for each model, synchronizes
