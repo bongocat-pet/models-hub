@@ -1,66 +1,74 @@
 {
   "schemaVersion": 1,
   "repository": "https://github.com/vladelaina/BongoCat",
-  "tag": "v1.4.0",
-  "releaseUrl": "https://github.com/vladelaina/BongoCat/releases/tag/v1.4.0",
-  "publishedAt": "2026-09-02T03:04:29Z",
-  "generated": "2026-09-03T10:10:38.324Z",
+  "tag": "v1.7.0",
+  "releaseUrl": "https://github.com/vladelaina/BongoCat/releases/tag/v1.7.0",
+  "publishedAt": "2026-09-09T11:37:34Z",
+  "generated": "2026-09-09T16:36:10.344Z",
   "assets": [
     {
-      "filename": "BongoCat-1.4.0-linux-x64.tar.gz",
-      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-linux-x64.tar.gz",
+      "filename": "BongoCat-1.7.0-linux-x64.AppImage",
+      "r2Path": "desktop/v1.7.0/BongoCat-1.7.0-linux-x64.AppImage",
+      "platform": "linux",
+      "variant": "linux-x64.appimage",
+      "size": 10369528,
+      "sha256": "30c18b12a2d88808a8c120cf16ad7584db36808042120092d61368f00be36a75"
+    },
+    {
+      "filename": "BongoCat-1.7.0-linux-x64.tar.gz",
+      "r2Path": "desktop/v1.7.0/BongoCat-1.7.0-linux-x64.tar.gz",
       "platform": "linux",
       "variant": "linux-x64.tar.gz",
-      "size": 5144169,
-      "sha256": "d1c97444626a46e86a6750bbc5cdea52de1326ffb60066602fabf341815665a7"
+      "size": 5156035,
+      "sha256": "5b230b1638ba949755756cd7751b70721c0a105e29d210002d1670dfded23477"
     },
     {
-      "filename": "BongoCat-1.4.0-macos-arm64.zip",
-      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-macos-arm64.zip",
+      "filename": "BongoCat-1.7.0-macos-arm64.zip",
+      "r2Path": "desktop/v1.7.0/BongoCat-1.7.0-macos-arm64.zip",
       "platform": "macos",
       "variant": "macos-arm64.zip",
-      "size": 5219218,
-      "sha256": "d6c2f44b09df5af86eb91864ad41b199a71ce3e1af1f002de6838ef7d2bc5598"
+      "size": 5219234,
+      "sha256": "11a9130878bbd8fa0a3c50e7489b12d00a382a8d19fd88b16ef2c9d8072409dc"
     },
     {
-      "filename": "BongoCat-1.4.0-macos-x64.zip",
-      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-macos-x64.zip",
+      "filename": "BongoCat-1.7.0-macos-x64.zip",
+      "r2Path": "desktop/v1.7.0/BongoCat-1.7.0-macos-x64.zip",
       "platform": "macos",
       "variant": "macos-x64.zip",
-      "size": 5334246,
-      "sha256": "0fd4b283840f75b0cec3871f86f803d2478cebd185ae7ba40bfb7b0d69a8c328"
+      "size": 5335783,
+      "sha256": "8800a70034775a4f9db7a235145ae2067e332cf8f9ab4f9f1234f3b9d1fa44e5"
     },
     {
-      "filename": "BongoCat-1.4.0-windows-x64-portable.exe",
-      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-windows-x64-portable.exe",
+      "filename": "BongoCat-1.7.0-windows-x64-portable.exe",
+      "r2Path": "desktop/v1.7.0/BongoCat-1.7.0-windows-x64-portable.exe",
       "platform": "windows",
       "variant": "windows-x64-portable.exe",
-      "size": 6157312,
-      "sha256": "3c1c7caae7c7137909da90dc3d210315b28792163bcbaa161c8fafcda5eb7522"
+      "size": 6180864,
+      "sha256": "3588757946319845c392f3efc4fb4df1540507991e57d05e25ca34224eb304e6"
     },
     {
-      "filename": "BongoCat-1.4.0-windows-x64-setup.exe",
-      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-windows-x64-setup.exe",
+      "filename": "BongoCat-1.7.0-windows-x64-setup.exe",
+      "r2Path": "desktop/v1.7.0/BongoCat-1.7.0-windows-x64-setup.exe",
       "platform": "windows",
       "variant": "windows-x64-setup.exe",
-      "size": 4229763,
-      "sha256": "477b5ac27e61f7fd430d9ecd79dccaeb3218f04b324e1e0e4b451f2c9c3110e5"
+      "size": 4241479,
+      "sha256": "9c0573f06d44fbc3ebebe6e50e0da224437850f1cbccc459195ea57a809e35bb"
     },
     {
-      "filename": "BongoCat-1.4.0-windows-x86-portable.exe",
-      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-windows-x86-portable.exe",
+      "filename": "BongoCat-1.7.0-windows-x86-portable.exe",
+      "r2Path": "desktop/v1.7.0/BongoCat-1.7.0-windows-x86-portable.exe",
       "platform": "windows",
       "variant": "windows-x86-portable.exe",
-      "size": 5759488,
-      "sha256": "e4ba899a67a0bdad75e5f96894351ef36c25467ee87f64455963fcd888b93687"
+      "size": 5778944,
+      "sha256": "8495f7ae3c032c975744a52634469b92f416867abf4418c6387d46759ad36845"
     },
     {
-      "filename": "BongoCat-1.4.0-windows-x86-setup.exe",
-      "r2Path": "desktop/v1.4.0/BongoCat-1.4.0-windows-x86-setup.exe",
+      "filename": "BongoCat-1.7.0-windows-x86-setup.exe",
+      "r2Path": "desktop/v1.7.0/BongoCat-1.7.0-windows-x86-setup.exe",
       "platform": "windows",
       "variant": "windows-x86-setup.exe",
-      "size": 4091524,
-      "sha256": "fc4ed925a15226f4eeaca2e50a501818b4dd22badf9e3561ae077a5429bdcc1c"
+      "size": 4102352,
+      "sha256": "187319c588d9caf84065657147637226c3b9b79a6988d8fd32d7b24cb4e81666"
     }
   ]
 }
